@@ -1,24 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
+import { TextField, Button } from '@material-ui/core'
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="app-title">
+        URL Shortener
+      </div>
+      <div>
+        <div className="input-container">
+          <TextField variant="outlined" fullWidth
+            label="Enter your URL here" />
+        </div>
+        <div><Button color="primary" variant="contained">Submit</Button></div>
+      </div>
+      <div className="display-short-url">
+        Shortened URL:
+      </div>
     </div>
   );
 }
