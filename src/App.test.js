@@ -1,9 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState } from 'react';
+import { mount } from 'enzyme';
 import App from './App';
+import { TextField } from '@material-ui/core';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+const originalUrl = 'http://google.com';
+
+describe('app', () => {
+  const app = mount(<App />);
+
+  it('app renders correctly', () => {
+    expect(app).toMatchSnapshot();
+  });
+
+  it('renders title', () => {
+    expect(app.find('.app-title').text()).toEqual('URL Shortener');
+
+  });
+
+  
 });
