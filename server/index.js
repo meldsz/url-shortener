@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const mongoose = require("mongoose");
 
@@ -20,6 +21,9 @@ mongoose.connect(mongoURI, connectOptions, (err, db) => {
 const app = express();
 // access JSON data sent from client
 app.use(bodyParser.json());
+app.use(cors());
+
+require("./routes/shortUrlRoute")(app);
 
 const PORT = 5000;
 
