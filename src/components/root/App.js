@@ -13,7 +13,9 @@ class App extends Component {
     }
   }
 
-  submitUrl = async () => {
+  submitUrl = async (event) => {
+    event.preventDefault();
+    // submit the longUrl to the api to construct shorturl
     const postData = { originalUrl: this.state.longUrl, host };
     try {
       let response = await fetch(endpoints.longUrl, {
@@ -24,23 +26,16 @@ class App extends Component {
         body: JSON.stringify(postData)
       });
       response = await response.json();
+      // update the state with shorturl obtained from the api
       response &&
         this.setState({ shortUrl: response.shortUrl });
-      // this.redirectToShortUrl(response.shortId);
     } catch (err) {
       console.log('Error:', err);
     }
-
-  }
-
-  redirectToShortUrl = async (shortId) => {
-    let response = await fetch(endpoints.getShortUrl(shortId));
-    await response.json();
-
   }
 
   render() {
-    const { longUrl, shortUrl } = this.state;
+    const { shortUrl } = this.state;
     return (
       <div className="container App">
         <div className="col App-header">
@@ -59,12 +54,14 @@ class App extends Component {
             <FormGroup>
               <div className="row input-container">
                 <FormControl placeholder="Enter your URL here"
+                  autoFocus
                   onChange={(e) => this.setState({
                     longUrl: e.target.value
                   })} />
               </div>
               <div className="row btn-container">
                 <Button variant="primary"
+                  type="submit"
                   className="submit-btn"
                   onClick={this.submitUrl}>Submit</Button>
               </div>
@@ -73,20 +70,16 @@ class App extends Component {
 
         </div>
 
-
+        {/* display the short url section only if the short url is created */}
         {
           shortUrl &&
           <div className="row display-short-url">
-            <ShortUrl longUrl={longUrl} shortUrl={shortUrl} />
+            <ShortUrl shortUrl={shortUrl} />
           </div>
         }
-
-
       </div>
     );
   }
-
-
 }
 
 export default App;

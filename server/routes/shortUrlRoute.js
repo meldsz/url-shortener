@@ -41,7 +41,7 @@ module.exports = app => {
           // check if the original url is already present in the db
           const item = await UrlShortenerModel.findOne({ originalUrl });
           if (item) {
-            // respond with the url object from the db
+            // respond with the url object from the db to prevent duplicates
             res.status(200).json(item);
           } else {
             // generate short id for the short url if the url is not existing in the db
