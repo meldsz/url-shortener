@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const UrlShortenerModel = mongoose.model("UrlShortenerModel");
 const validUrl = require("valid-url");
 const shortid = require("shortid");
+const urlExists = require('url-exists');
 
 const errorUrl = 'http://localhost/error';
 
@@ -22,41 +23,52 @@ module.exports = app => {
 
   app.post("/api/urls", async (req, res) => {
     const { originalUrl, host } = req.body;
+
     // validate the base url
     if (!validUrl.isUri(host)) {
+      // return invalid host if host is not valid url format
       return res
         .status(401)
         .json(
           "Invalid Host"
         );
     }
-    // generate short id for the short url
-    const shortId = shortid.generate();
-    // validate the original Url
-    if (validUrl.isUri(originalUrl)) {
-      try {
-        const item = await UrlShortenerModel.findOne({ originalUrl });
-        if (item) {
-          res.status(200).json(item);
-        } else {
-          shortUrl = `${host}/${shortId}`;
-          const item = new UrlShortenerModel({
-            originalUrl,
-            shortUrl,
-            shortId
-          });
-          await item.save();
-          res.status(200).json(item);
+
+    // validate the original Url to check if the url exists
+    urlExists(originalUrl, async function (err, exists) {
+      if (exists) {
+        try {
+          // check if the original url is already present in the db
+          const item = await UrlShortenerModel.findOne({ originalUrl });
+          if (item) {
+            // respond with the url object from the db
+            res.status(200).json(item);
+          } else {
+            // generate short id for the short url if the url is not existing in the db
+            const shortId = shortid.generate();
+            // create shorturl from the host url and shortid
+            shortUrl = `${host}/${shortId}`;
+            // store the generated url object in the db
+            const item = new UrlShortenerModel({
+              originalUrl,
+              shortUrl,
+              shortId
+            });
+            await item.save();
+            res.status(200).json(item);
+          }
+        } catch (err) {
+          // catch errors
+          res.status(401).json("Invalid Request");
         }
-      } catch (err) {
-        res.status(401).json("Invalid Request");
+      } else {
+        // return invalid url if the url does not exists
+        return res
+          .status(401)
+          .json(
+            "Invalid Original Url"
+          );
       }
-    } else {
-      return res
-        .status(401)
-        .json(
-          "Invalid Original Url"
-        );
-    }
+    });
   });
 };
