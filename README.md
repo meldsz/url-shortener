@@ -1,5 +1,7 @@
 PerfUrl - The website for the perfect URL.
 
+![Alt text](./src/assets/perfURL.png?raw=true "perfURL")
+
 This application lets you create shorter urls making it easier for you to share.
 The application is unit tested using Jest and Enzyme.
 MongoDb has been used as the persistent database for the application.
