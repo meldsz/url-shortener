@@ -1,0 +1,16 @@
+.table-container {
+    margin: 0 8%;
+}
+
+.table-header {
+    font-size: 20px;
+    text-align: left;
+    margin-left: 5px;
+}
+
+.longurl-row {
+    white-space: nowrap;
+    overflow: hidden;
+    flex: 1;
+    text-overflow: ellipsis;
+}
