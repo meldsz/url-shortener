@@ -6,7 +6,9 @@ const urlExists = require('url-exists');
 
 const errorUrl = 'http://localhost/error';
 
-const getDataFromDb = async (req, res) => {
+const getUrlFromDb = async (req, res) => {
+  await UrlShortenerModel.updateOne({ shortId: req.params.shortId },
+    { $inc: { clicks: 1 } });
   const item = await UrlShortenerModel.findOne({ shortId: req.params.shortId });
   return item ? res.redirect(item.originalUrl) : res.redirect(errorUrl);
 }
@@ -14,11 +16,16 @@ const getDataFromDb = async (req, res) => {
 module.exports = app => {
 
   app.get("/api/urls/:shortId", async (req, res) => {
-    return await getDataFromDb(req, res);
+    return await getUrlFromDb(req, res);
   });
 
   app.get("/:shortId", async (req, res) => {
-    return await getDataFromDb(req, res);
+    return await getUrlFromDb(req, res);
+  });
+
+  app.get("/api/urls", async (req, res) => {
+    const items = await UrlShortenerModel.find().sort({ $natural: -1 }).limit(10);
+    return items ? res.send(JSON.stringify(items)) : res.redirect(errorUrl);
   });
 
   app.post("/api/urls", async (req, res) => {
@@ -52,7 +59,8 @@ module.exports = app => {
             const item = new UrlShortenerModel({
               originalUrl,
               shortUrl,
-              shortId
+              shortId,
+              clicks: 0
             });
             await item.save();
             res.status(200).json(item);
