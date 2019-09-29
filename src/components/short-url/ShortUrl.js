@@ -3,7 +3,6 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './ShortUrl.css';
 
 const ShortUrl = (props) => {
-    console.log(props)
     const { shortUrl } = props;
     const [isCopied, setIsCopied] = React.useState(false);
     const copyRef = React.createRef();
@@ -18,6 +17,7 @@ const ShortUrl = (props) => {
     return (
         <div>
             <a href={shortUrl} target="_blank" className="shorturl">{shortUrl}</a>
+            {/* section of application that implements copy to clipboard functionality */}
             <CopyToClipboard
                 text={shortUrl}
                 onCopy={() => setIsCopied(true)}>
@@ -28,8 +28,6 @@ const ShortUrl = (props) => {
                     variant={isCopied ? "success" : "outline-success"}>
                     <i className="fa fa-copy"></i>
                 </button>
-
-
             </CopyToClipboard>
 
             <div ref={copyRef} className={isCopied ? "copy-revealed " : "copy-hidden"}>Copied to clipboard</div>

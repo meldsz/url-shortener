@@ -6,6 +6,7 @@ const UrlList = (props) => {
 
     return (
         <div className=" table-container">
+            {/* section of the application that displays the most recent url conversions */}
             <div className="table-header"> Latest Shortened Urls</div>
             <table className="highlight responsive-table">
                 <thead>

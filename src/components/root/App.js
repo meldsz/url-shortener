@@ -21,12 +21,14 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    // fetch the url history and store it in state
     let response = await fetch(endpoints.getUrls);
     response = await response.json();
     this.setState({ urlDataSource: response });
   }
 
   submitUrl = async (event) => {
+    // prevent default behaviour of the submit button
     event.preventDefault();
     const { longUrl } = this.state;
     // validate the input for url before submission
@@ -45,19 +47,17 @@ class App extends Component {
         response = await response.json();
         // update the state with shorturl obtained from the api
         if (response.shortUrl) {
-          setTimeout(() =>
-            this.setState({ shortUrl: response.shortUrl, loading: false }), 1000)
-
+          this.setState({ shortUrl: response.shortUrl, loading: false })
         } else {
-          setTimeout(() =>
-            this.setState({ errorMsg: 'URL not valid', isInputInValid: true, loading: false }), 1000);
+          // update state with error message if url does not exist
+          this.setState({ errorMsg: 'URL not valid', isInputInValid: true, loading: false });
         }
 
       } catch (err) {
         console.log('Error:', err);
       }
     } else {
-      // update the state
+      // update the state for error messages when url is not entered or is not in url format
       this.setState({
         isInputInValid: true,
         errorMsg: longUrl.length === 0 ? 'Please enter URL' : 'URL not valid'
@@ -70,7 +70,7 @@ class App extends Component {
     const { shortUrl, isInputInValid, errorMsg, urlDataSource, loading } = this.state;
     return (
       <div className="App">
-        {/* app header */}
+        {/* renders app header */}
         <AppHeader />
 
         {/* form */}
@@ -96,15 +96,16 @@ class App extends Component {
             </div>
           </div>
         </form>
-        <div className={loading || shortUrl ? "shorturl-container" : "element-hidden"}>
-          {/* spinner */}
+
+          {/* spinner is rendered while fetch operation is processing */}
           {loading && <Spinner />}
 
           {/* display the short url section only if the short url is created */}
           <div className={shortUrl ? "shorturl-revealed" : "element-hidden"}>
             <ShortUrl shortUrl={shortUrl} />
           </div>
-        </div>
+
+        {/* renders the url history in a table */}
         {urlDataSource.length > 0 &&
           <UrlList urlDataSource={urlDataSource} />
         }

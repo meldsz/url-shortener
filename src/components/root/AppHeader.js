@@ -7,9 +7,10 @@ const AppHeader = () => {
                 <i className="fa fa-link"></i>
             </div>
 
-            <div>
-                PerfURL <br /><h5>The website for the perfect URL</h5>
-          </div>
+            <div className="title">
+                PerfURL <br />
+                <h5>The website for the perfect URL</h5>
+            </div>
         </div>
     );
 }

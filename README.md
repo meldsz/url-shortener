@@ -1,6 +1,6 @@
 PerfUrl - The website for the perfect URL.
 
-![Alt text](src/assets/perfURL.png "perfURL")
+![PerfUrl screenshot](src/assets/perfURL.png "perfURL")
 
 This application lets you create shorter urls making it easier for you to share.
 The application is unit tested using Jest and Enzyme.
@@ -23,8 +23,10 @@ Testing Libraries:
 You need to have Node.js, MongoDb installed on your computer
 
 1. Clone this repository
-2. Install all the dependencies: `npm install`
-3. Run the application for development: `cd server` and `npm run dev`
+2. Install all the dependencies:  
+    * front-end application dependencies: In the root directory run, `npm install`
+    * back-end application dependencies: `cd server` and `npm install`
+3. To run the application for development: `cd server` and `npm run dev`
 
 ### 3rd Party Libraries used:
 
@@ -38,20 +40,23 @@ Node.js app:
 
 In the server directory, you can run:
 
-### `npm run dev`
+#### `cd server` and `npm run dev`
 
-Runs both the Frontend and backend application
+The above command Runs both the Frontend and backend application
 
 <br>
-Open http://localhost:3000 to view the application it in the browser.
+Open [http://localhost:3000](http://localhost:3000) to view the application in the browser.
 
-### `npm test`
+In the root directory, run the below command to run unit tests for react application
+#### `npm test`
 
 Launches the test runner in the interactive watch mode.<br>
 
-### `npm run build`
+In the root directory, run the below command to build the application,
 
-Builds the app for production to the `build` folder.<br>
+#### `npm run build`
+
+The above command bilds the app for production to the `build` folder.<br>
 It bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.<br>

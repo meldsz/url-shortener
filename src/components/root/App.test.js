@@ -15,11 +15,14 @@ describe('app component', () => {
   });
 
   it('initial state', () => {
-    expect(app.state()).toEqual({ longUrl: '', shortUrl: '', isInputInValid: false, });
-  });
-
-  it('does not render ShortUrl component initially', () => {
-    expect(app.find('ShortUrl').exists()).toBe(false);
+    expect(app.state()).toEqual({
+      longUrl: '',
+      shortUrl: '',
+      isInputInValid: false,
+      errorMsg: '',
+      loading: false,
+      urlDataSource: []
+    });
   });
 
   it('should have input box', () => {
@@ -56,6 +59,36 @@ describe('app component', () => {
         global.fetch.mockClear();
       });
     });
+
+    describe('updates errorMsg in state when the url does not exists', () => {
+      beforeEach(done => {
+        app.find('input').simulate('change', { target: { value: '' } });
+        app.find('.submit-btn').simulate('click');
+        setTimeout(done)
+      });
+
+      it('updates the errorMsg', () => {
+        expect(app.state().errorMsg).toEqual('Please enter URL');
+      });
+
+    });
+
+    describe('updates errorMsg in state when the user clicks submit without longurl', () => {
+      beforeEach(done => {
+        global.fetch = jest.fn().mockImplementation(() => {
+          return Promise.resolve(new Response(JSON.stringify("Invalid Original Url")));
+        });
+        app.find('.submit-btn').simulate('click');
+        setTimeout(done)
+      });
+
+      it('updates the errorMsg', () => {
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        expect(app.state().errorMsg).toEqual('URL not valid');
+        global.fetch.mockClear();
+      });
+
+    })
 
   });
 

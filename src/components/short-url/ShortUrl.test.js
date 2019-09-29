@@ -7,19 +7,14 @@ const props = {
     shortUrl: 'http://localhost/jagdasd'
 };
 
-describe('ShortUrl', () => {
+describe('ShortUrl Component', () => {
     const shortUrlWrapper = mount(<ShortUrl {...props} />);
 
-    it('renders short url', () => {
+    it('renders component correctly', () => {
+        expect(shortUrlWrapper).toMatchSnapshot();
+      });
+
+    it('renders short url in as a link', () => {
         expect(shortUrlWrapper.find('a').text()).toEqual(props.shortUrl);
     });
-
-    describe('state controlled button', () => {
-        it('state changes upon clicking the button', () => {
-            const mockSetIsCopied = jest.fn();
-            React.useState = jest.fn(() => [false, mockSetIsCopied]);
-            shortUrlWrapper.find('button').simulate('click');
-            expect(mockSetIsCopied).toHaveBeenCalledWith("true");
-        })
-    })
 })
