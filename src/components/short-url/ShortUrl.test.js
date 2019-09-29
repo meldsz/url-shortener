@@ -18,7 +18,7 @@ describe('ShortUrl', () => {
         it('state changes upon clicking the button', () => {
             const mockSetIsCopied = jest.fn();
             React.useState = jest.fn(() => [false, mockSetIsCopied]);
-            shortUrlWrapper.find('Button').simulate('click');
+            shortUrlWrapper.find('button').simulate('click');
             expect(mockSetIsCopied).toHaveBeenCalledWith("true");
         })
     })
