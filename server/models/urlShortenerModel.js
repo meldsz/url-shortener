@@ -7,6 +7,7 @@ const urlShortenerSchema = new Schema({
   originalUrl: String,
   shortId: String,
   shortUrl: String,
+  clicks: Number,
   ctime: { type: Date, default: Date.now }
 });
 
