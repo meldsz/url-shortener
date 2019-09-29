@@ -15,7 +15,7 @@ describe('app component', () => {
   });
 
   it('initial state', () => {
-    expect(app.state()).toEqual({ longUrl: '', shortUrl: '' });
+    expect(app.state()).toEqual({ longUrl: '', shortUrl: '', isInputInValid: false, });
   });
 
   it('does not render ShortUrl component initially', () => {
@@ -23,17 +23,17 @@ describe('app component', () => {
   });
 
   it('should have input box', () => {
-    expect(app.find('FormControl')).toHaveLength(1);
+    expect(app.find('input')).toHaveLength(1);
   });
 
   it('renders a Button `Submit` ', () => {
-    expect(app.find('.submit-btn').at(0).props().children).toEqual('Submit');
+    expect(app.find('.submit-btn').at(0).props().children).toEqual('Shorten');
   });
 
   describe('updating the input box longUrl', () => {
 
     beforeEach(() => {
-      app.find('FormControl').simulate('change', mockEvent);
+      app.find('input').simulate('change', mockEvent);
     })
 
     it('update longUrl in the state', () => {
@@ -46,7 +46,7 @@ describe('app component', () => {
         global.fetch = jest.fn().mockImplementation(() => {
           return Promise.resolve(new Response(JSON.stringify(url)));
         });
-        app.find('Button').simulate('click');
+        app.find('.submit-btn').simulate('click');
         setTimeout(done)
       });
 
