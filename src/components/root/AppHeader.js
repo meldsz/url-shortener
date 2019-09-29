@@ -8,7 +8,7 @@ const AppHeader = () => {
             </div>
 
             <div>
-                URL Shortener
+                PerfURL <br /><h5>The website for the perfect URL</h5>
           </div>
         </div>
     );
